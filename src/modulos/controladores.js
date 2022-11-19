@@ -16,8 +16,8 @@ const DESARROLLO ={
 
 //inicializador de cliente de oracle
 
-//oracledb.initOracleClient({libDir: 'C:\\Users\\hpaiz\\Documents\\oracliente\\instantclient_21_6'});
-oracledb.initOracleClient({configDir: '/opt/oracle/instantclient'});
+oracledb.initOracleClient({libDir: 'C:\\Users\\hpaiz\\Documents\\oracliente\\instantclient_21_6'});
+//oracledb.initOracleClient({configDir: '/opt/oracle/instantclient'});
 //console.log("Oracle client library version number is " + oracledb.oracleClientVersion);
 
 //---------------------------------------
@@ -105,20 +105,22 @@ async function guardarDatosOpticos(req, res){
 
 // funcion que optiene 
 async function guardarDatosTelemetriaRiegos(req, res){
-    const data = req.body;
+
+    const DEV_EUI = req.body.dev_eui;
+    const PORCENTAJE_DE_TANQUE_DIESEL = req.body.nivel_tanque;
+    const REVOLUCIONES_POR_MINUTO = req.body.rpm;
+    const CODIGO_DE_BOMBA_RIEGO = req.body.bomba
+    const TIPO_DE_BOMBA_RIEGO = req.body.tipo_bomba;
+    const ESTADO_ACTIVIDAD = req.estado;
+
     const sql_rol = "set role all";
-    const query ="insert into sdeusr.telemetria_riegos_prueba(numero_de_registro, dev_eui, medidor_rpm, voltaje_i1, voltaje_i2, voltaje_mA) values((select Max(numero_de_registro+1) from sdeusr.telemetria_riegos_prueba),'"+req.body.dev_eui+"',"+req.body.rpm+","+req.body.data_AVI1_V+","+req.body.data_AVI2_V+","+req.body.data_ACI1_mA+")";
+    const query ="INSER INTO SDEUSR.DATA_TELEMETRIA_DE_RIEGOS(DEV_EUI, PORCENTAJE_DE_TANQUE_DIESEL, REVOLUCIONES_POR_MINUTO, CODIGO_DE_BOMBA_RIEGO, TIPO_DE_BOMBA_RIEGO, ESTADO_ACTIVIDAD) values('"+DEV_EUI+"',"+PORCENTAJE_DE_TANQUE_DIESEL+","+REVOLUCIONES_POR_MINUTO+","+CODIGO_DE_BOMBA_RIEGO+","+TIPO_DE_BOMBA_RIEGO+","+ESTADO_ACTIVIDAD+")";
     const comit = "COMMIT";
     try {
         //console.log(data);
         conn = await oracledb.getConnection(DESARROLLO);
         conn.execute(sql_rol);
-        resultado = await conn.execute(query);
-       /* if (resultado.rows.length ==0) {
-            return res.send('No se encontro data');
-        } else {
-            return res.json(resultado.rows)
-        }*/       
+        resultado = await conn.execute(query);    
     } catch (error) {
         return res.send(error.message);
     }finally{

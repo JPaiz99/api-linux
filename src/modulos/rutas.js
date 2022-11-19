@@ -25,6 +25,7 @@ modulo.post('/opticos',(req, res) =>{
 
 modulo.post('/telemetria',(req, res) =>{
     api.guardarDatosTelemetriaRiegos(req,res)
+    //console.log(req)
 });
 
 module.exports = modulo;
