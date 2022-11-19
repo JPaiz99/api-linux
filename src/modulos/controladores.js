@@ -16,8 +16,8 @@ const DESARROLLO ={
 
 //inicializador de cliente de oracle
 
-oracledb.initOracleClient({libDir: 'C:\\Users\\hpaiz\\Documents\\oracliente\\instantclient_21_6'});
-//oracledb.initOracleClient({configDir: '/opt/oracle/instantclient'});
+//oracledb.initOracleClient({libDir: 'C:\\Users\\hpaiz\\Documents\\oracliente\\instantclient_21_6'});
+oracledb.initOracleClient({configDir: '/opt/oracle/instantclient'});
 //console.log("Oracle client library version number is " + oracledb.oracleClientVersion);
 
 //---------------------------------------
@@ -111,10 +111,12 @@ async function guardarDatosTelemetriaRiegos(req, res){
     const REVOLUCIONES_POR_MINUTO = req.body.rpm;
     const CODIGO_DE_BOMBA_RIEGO = req.body.bomba
     const TIPO_DE_BOMBA_RIEGO = req.body.tipo_bomba;
-    const ESTADO_ACTIVIDAD = req.estado;
+    const ESTADO_ACTIVIDAD = req.body.estado;
+
+    //console.log(DEV_EUI+" "+PORCENTAJE_DE_TANQUE_DIESEL+" "+REVOLUCIONES_POR_MINUTO+" "+CODIGO_DE_BOMBA_RIEGO+" "+TIPO_DE_BOMBA_RIEGO+" "+ESTADO_ACTIVIDAD)
 
     const sql_rol = "set role all";
-    const query ="INSER INTO SDEUSR.DATA_TELEMETRIA_DE_RIEGOS(DEV_EUI, PORCENTAJE_DE_TANQUE_DIESEL, REVOLUCIONES_POR_MINUTO, CODIGO_DE_BOMBA_RIEGO, TIPO_DE_BOMBA_RIEGO, ESTADO_ACTIVIDAD) values('"+DEV_EUI+"',"+PORCENTAJE_DE_TANQUE_DIESEL+","+REVOLUCIONES_POR_MINUTO+","+CODIGO_DE_BOMBA_RIEGO+","+TIPO_DE_BOMBA_RIEGO+","+ESTADO_ACTIVIDAD+")";
+    const query ="INSERT INTO SDEUSR.DATA_TELEMETRIA_DE_RIEGOS(DEV_EUI, PORCENTAJE_DE_TANQUE_DIESEL, REVOLUCIONES_POR_MINUTO, CODIGO_DE_BOMBA_RIEGO, TIPO_DE_BOMBA_RIEGO, ESTADO_ACTIVIDAD) values('"+DEV_EUI+"',"+PORCENTAJE_DE_TANQUE_DIESEL+","+REVOLUCIONES_POR_MINUTO+",'"+CODIGO_DE_BOMBA_RIEGO+"','"+TIPO_DE_BOMBA_RIEGO+"','"+ESTADO_ACTIVIDAD+"')";
     const comit = "COMMIT";
     try {
         //console.log(data);
