@@ -138,4 +138,38 @@ async function guardarDatosTelemetriaRiegos(req, res){
 
 }
 
-module.exports = {obtener_admin, guardarDatosOpticos,  guardarDatosTelemetriaRiegos}
+async function guardarDatosGafeteGPS(req, res){
+
+    const DEV_EUI = req.body.dev_eui;
+
+    //console.log(DEV_EUI+" "+PORCENTAJE_DE_TANQUE_DIESEL+" "+REVOLUCIONES_POR_MINUTO+" "+CODIGO_DE_BOMBA_RIEGO+" "+TIPO_DE_BOMBA_RIEGO+" "+ESTADO_ACTIVIDAD)
+
+    const sql_rol = "set role all";
+    const query ="INSERT INTO SDEUSR.DATA_GAFETE_GPS_TRACKER(DEV_EUI,) values('"+DEV_EUI+"',)";
+    const comit = "COMMIT";
+    try {
+        //console.log(data);
+        conn = await oracledb.getConnection(DESARROLLO);
+        conn.execute(sql_rol);
+        resultado = await conn.execute(query);    
+    } catch (error) {
+        return res.send(error.message);
+    }finally{
+         if (conn) {
+            try {
+                conn.execute(comit)
+                await conn.close();
+            } catch (error) {
+                return res.send(error)
+            }
+         }
+    }
+
+}
+
+module.exports = {
+    obtener_admin, 
+    guardarDatosOpticos,  
+    guardarDatosTelemetriaRiegos, 
+    guardarDatosGafeteGPS
+}

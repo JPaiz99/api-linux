@@ -28,5 +28,10 @@ modulo.post('/telemetria',(req, res) =>{
     //console.log(req)
 });
 
+modulo.post('/gps_personal',(req, res) =>{
+    api.guardarDatosGafeteGPS(req,res)
+    //console.log(req)
+});
+
 module.exports = modulo;
 
